@@ -1,4 +1,4 @@
-import 'package:deeznotz/presentation/home/view/home_screen.dart';
+import 'package:deeznotz/presentation/splash/view/splash_screen.dart';
 import 'package:deeznotz/repository/model/note_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomeScreen(),
+      home: SplashScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

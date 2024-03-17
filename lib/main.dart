@@ -1,7 +1,12 @@
 import 'package:deeznotz/presentation/home/view/home_screen.dart';
+import 'package:deeznotz/repository/model/note_model.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox<NoteModel>("notes");
   runApp(const MyApp());
 }
 

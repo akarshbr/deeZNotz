@@ -2,6 +2,7 @@ import 'package:deeznotz/core/constants/colors.dart';
 import 'package:deeznotz/core/constants/style.dart';
 import 'package:deeznotz/presentation/home/view/widgets/note_card.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,6 +12,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool _isGridView = true;
+
+  _loadViewPreference() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      _isGridView = (sharedPreferences.getBool('isGridView') ?? true);
+    });
+  }
+
+  _saveViewPreference(bool isGridView) async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setBool('isGridView', isGridView);
+  }
+
+  @override
+  void initState() {
+    _loadViewPreference();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -30,20 +51,49 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       const Text("deeZNotz", style: StyleVariables.logoStyleLight),
                       Spacer(),
-                      IconButton(onPressed: () {}, icon: Icon(Icons.search, color: Colors.black, size: 50))
+                      IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isGridView = !_isGridView;
+                              _saveViewPreference(_isGridView);
+                            });
+                          },
+                          icon: Icon(
+                            _isGridView ? Icons.menu : Icons.grid_view_rounded,
+                            color: Colors.black,
+                            size: 50,
+                            weight: 1,
+                          )),
+                      IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.search,
+                            color: Colors.black,
+                            size: 50,
+                            weight: 1,
+                          ))
                     ],
                   ),
                 ),
               ),
             ),
             StyleVariables.sliverSizedBox(20),
-            SliverAnimatedGrid(
-                initialItemCount: 6,
-                itemBuilder: (context, index, _) {
-                  return NoteCard();
-                },
-                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 200, mainAxisSpacing: 10, crossAxisSpacing: 10, childAspectRatio: 1.3))
+            _isGridView
+                ? SliverAnimatedGrid(
+                    initialItemCount: 6,
+                    itemBuilder: (context, index, _) {
+                      return NoteCard(bottom: 0,);
+                    },
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
+                        childAspectRatio: 1.3))
+                : SliverAnimatedList(
+                    initialItemCount: 6,
+                    itemBuilder: (context, index, _) {
+                      return NoteCard(bottom: 10,);
+                    })
           ],
         ),
       ),

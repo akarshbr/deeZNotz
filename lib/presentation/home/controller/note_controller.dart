@@ -1,11 +1,14 @@
 import 'package:deeznotz/repository/model/note_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NoteController extends ChangeNotifier {
   final Box<NoteModel> _noteBox = Hive.box("notes");
   List<NoteModel> notes = [];
   int existingNoteIndex = -1;
+  bool gridview = true;
+  late SharedPreferences sharedPreferences;
 
   Future<List<NoteModel>> getNotes() async {
     return _noteBox.values.toList();
@@ -42,5 +45,21 @@ class NoteController extends ChangeNotifier {
       }).toList();
     }
     notifyListeners();
+  }
+
+  void toggleNoteCardView() {
+    gridview = !gridview!;
+    setGridView(gridview);
+    notifyListeners();
+  }
+
+   checkGridView() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    gridview = (sharedPreferences.getBool("gridview") ?? true);
+  }
+
+  setGridView(value) async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setBool("gridView", value);
   }
 }

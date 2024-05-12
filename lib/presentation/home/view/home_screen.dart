@@ -1,7 +1,9 @@
 import 'package:deeznotz/core/constants/colors.dart';
 import 'package:deeznotz/core/constants/style.dart';
+import 'package:deeznotz/presentation/home/controller/settings_controller.dart';
 import 'package:deeznotz/presentation/home/view/widgets/note_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -12,18 +14,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool _isGridView = true;
+   bool? _isGridView;
+  late SharedPreferences sharedPreferences;
 
   _loadViewPreference() async {
-    final sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
       _isGridView = (sharedPreferences.getBool('isGridView') ?? true);
     });
-  }
-
-  _saveViewPreference(bool isGridView) async {
-    final sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setBool('isGridView', isGridView);
   }
 
   @override
@@ -54,12 +52,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       IconButton(
                           onPressed: () {
                             setState(() {
-                              _isGridView = !_isGridView;
-                              _saveViewPreference(_isGridView);
+                              _isGridView = !_isGridView!;
+                              Provider.of<SettingsController>(context, listen: false)
+                                  .saveViewPreference(_isGridView!);
                             });
                           },
                           icon: Icon(
-                            _isGridView ? Icons.menu : Icons.grid_view_rounded,
+                            _isGridView==true ? Icons.menu : Icons.grid_view_rounded,
                             color: Colors.black,
                             size: 50,
                             weight: 1,
@@ -78,11 +77,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             StyleVariables.sliverSizedBox(20),
-            _isGridView
+            _isGridView==true
                 ? SliverAnimatedGrid(
                     initialItemCount: 6,
                     itemBuilder: (context, index, _) {
-                      return NoteCard(bottom: 0,);
+                      return NoteCard(
+                        bottom: 0,
+                      );
                     },
                     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                         maxCrossAxisExtent: 200,
@@ -92,7 +93,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 : SliverAnimatedList(
                     initialItemCount: 6,
                     itemBuilder: (context, index, _) {
-                      return NoteCard(bottom: 10,);
+                      return NoteCard(
+                        bottom: 10,
+                      );
                     })
           ],
         ),

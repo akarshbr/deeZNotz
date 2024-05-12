@@ -19,8 +19,8 @@ class NoteCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(DummyData.title,style: StyleVariables.cardTitleTextStyleLight,),
-            Text(DummyData.desc,overflow: TextOverflow.ellipsis,maxLines: 3,style: StyleVariables.cardDescTextStyleLight)
+            Text(DummyData.title,),
+            Text(DummyData.desc,overflow: TextOverflow.ellipsis,maxLines: 3,)
           ],
         ),
       ),

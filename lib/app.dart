@@ -34,8 +34,10 @@ ThemeData _buildDeezNotzLightTheme(){
 TextTheme _buildDeezNotzTextTheme(TextTheme base) {
   return base.copyWith(
     headlineSmall: base.headlineSmall!.copyWith(fontWeight: FontWeight.w500),
-    titleLarge: base.titleLarge!.copyWith(fontSize: 20,fontWeight: FontWeight.w900),
+    titleLarge: base.titleLarge!.copyWith(fontWeight: FontWeight.w900,fontSize: 20),
     bodySmall: base.bodySmall!.copyWith(fontWeight: FontWeight.w400,fontSize: 15),
-    bodyLarge: base.bodyLarge!.copyWith(fontWeight: FontWeight.w500,fontSize: 17)
+    bodyLarge: base.bodyLarge!.copyWith(fontWeight: FontWeight.w500,fontSize: 17),
+    labelLarge: base.labelLarge!.copyWith(fontWeight: FontWeight.w900,fontSize: 30),
+    displayLarge: base.displayLarge!.copyWith(fontWeight: FontWeight.w100,fontSize: 50,letterSpacing: .001)
   ).apply(fontFamily: "WorkSans");
 }

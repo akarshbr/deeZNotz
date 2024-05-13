@@ -1,4 +1,5 @@
-class DummyData{
+class DummyData {
+  static DateTime dateTime = DateTime.now();
   static const String title = "Title";
   static const String desc = "Description, Lorem ipsum dolor sit amet, consectetur adipiscing elit,"
       " sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, "

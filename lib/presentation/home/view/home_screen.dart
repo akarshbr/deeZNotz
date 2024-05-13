@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../widgets/waterfall_notched_rectangle.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -14,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-   bool? _isGridView;
+  bool? _isGridView;
   late SharedPreferences sharedPreferences;
 
   _loadViewPreference() async {
@@ -32,52 +34,51 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: ColorConstants.bgColorLight,
-      body: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
+      body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            StyleVariables.sliverSizedBox(40),
-            SliverToBoxAdapter(
-              child: Center(
-                child: SizedBox(
-                  width: size.width * .95,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Text("deeZNotz", style: StyleVariables.logoStyleLight),
-                      Spacer(),
-                      IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _isGridView = !_isGridView!;
-                              Provider.of<SettingsController>(context, listen: false)
-                                  .saveViewPreference(_isGridView!);
-                            });
-                          },
-                          icon: Icon(
-                            _isGridView==true ? Icons.menu : Icons.grid_view_rounded,
-                            color: Colors.black,
-                            size: 50,
-                            weight: 1,
-                          )),
-                      IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.search,
-                            color: Colors.black,
-                            size: 50,
-                            weight: 1,
-                          ))
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            StyleVariables.sliverSizedBox(20),
-            _isGridView==true
+            //StyleVariables.sliverSizedBox(50),
+            // SliverToBoxAdapter(
+            //   child: Center(
+            //     child: Container(
+            //       color: Colors.white,
+            //       width: size.width * .95,
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.start,
+            //         children: [
+            //           const Text("deeZNotz", style: StyleVariables.logoStyleLight),
+            //           Spacer(),
+            //           IconButton(
+            //               onPressed: () {
+            //                 setState(() {
+            //                   _isGridView = !_isGridView!;
+            //                   Provider.of<SettingsController>(context, listen: false)
+            //                       .saveViewPreference(_isGridView!);
+            //                 });
+            //               },
+            //               icon: Icon(
+            //                 _isGridView == true ? Icons.menu : Icons.grid_view_rounded,
+            //                 color: Colors.black,
+            //                 size: 50,
+            //                 weight: 1,
+            //               )),
+            //           IconButton(
+            //               onPressed: () {},
+            //               icon: Icon(
+            //                 Icons.search,
+            //                 color: Colors.black,
+            //                 size: 50,
+            //                 weight: 1,
+            //               ))
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            _isGridView == true
                 ? SliverAnimatedGrid(
                     initialItemCount: 6,
                     itemBuilder: (context, index, _) {
@@ -90,22 +91,49 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisSpacing: 10,
                         crossAxisSpacing: 10,
                         childAspectRatio: 1.3))
-                : SliverAnimatedList(
-                    initialItemCount: 6,
-                    itemBuilder: (context, index, _) {
-                      return NoteCard(
-                        bottom: 10,
+                : SliverList.separated(
+                    itemCount: 6,
+                    itemBuilder: (context, index) {
+                      return NoteCard(bottom: 0);
+                    },
+                    separatorBuilder: (context, index) {
+                      return Container(
+                        height: 5,
+                        color: DeezNotzColors.bgColorLight,
                       );
                     })
           ],
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
           enableFeedback: true,
           onPressed: () {},
-          child: Icon(Icons.add, size: 30),
-          backgroundColor: ColorConstants.cardBGColorLight),
+          backgroundColor: DeezNotzColors.orange300,
+          child: const Icon(Icons.add, size: 30)),
+      bottomNavigationBar: BottomAppBar(shape: WaterfallNotchedRectangle(),color: DeezNotzColors.blue700,child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+           Text("deeZNotz",style: TextStyle(fontSize: 30,color: DeezNotzColors.white50),),
+          Spacer(),
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  _isGridView = !_isGridView!;
+                  Provider.of<SettingsController>(context, listen: false)
+                      .saveViewPreference(_isGridView!);
+                });
+              },
+              icon: Icon(
+                _isGridView == true ? Icons.menu : Icons.grid_view_rounded,
+                color: DeezNotzColors.white50,
+                size: 40,
+                weight: 1,
+              )),
+
+        ],
+      ),),
     );
   }
 }

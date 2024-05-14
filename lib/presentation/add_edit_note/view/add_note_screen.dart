@@ -1,14 +1,14 @@
 import 'package:deeznotz/core/constants/colors.dart';
 import 'package:flutter/material.dart';
 
-class AddNoteScreen extends StatefulWidget {
-  const AddNoteScreen({super.key});
+class AddEditNoteScreen extends StatefulWidget {
+  const AddEditNoteScreen({super.key});
 
   @override
-  State<AddNoteScreen> createState() => _AddNoteScreenState();
+  State<AddEditNoteScreen> createState() => _AddEditNoteScreenState();
 }
 
-class _AddNoteScreenState extends State<AddNoteScreen> {
+class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

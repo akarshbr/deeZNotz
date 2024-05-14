@@ -34,6 +34,6 @@ flutter:
   fonts:
     - family: WorkSans
       fonts:
-        - asset: fonts/Work_Sans/static/WorkSans-Light.ttf
+        - asset: fonts/Work_Sans/WorkSans-VariableFont_wght.ttf
 
 

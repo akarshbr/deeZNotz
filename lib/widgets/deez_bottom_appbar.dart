@@ -1,3 +1,4 @@
+import 'package:deeznotz/presentation/settings/view/settings_screen.dart';
 import 'package:deeznotz/widgets/waterfall_notched_rectangle.dart';
 import 'package:flutter/material.dart';
 
@@ -9,18 +10,20 @@ class DeezBottomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      shape: WaterfallNotchedRectangle(),
+      shape: const WaterfallNotchedRectangle(),
       color: DeezNotzColors.blue700,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             "deeZNotz",
             style: TextStyle(fontSize: 30, color: DeezNotzColors.white50),
           ),
-          Spacer(),
+          const Spacer(),
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
+              },
               icon: const Icon(
                 Icons.settings,
                 color: DeezNotzColors.white50,

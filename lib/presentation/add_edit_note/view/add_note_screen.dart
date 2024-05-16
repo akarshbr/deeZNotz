@@ -2,10 +2,11 @@ import 'package:deeznotz/core/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class AddEditNoteScreen extends StatefulWidget {
-  const AddEditNoteScreen({super.key, this.title, this.description});
+  const AddEditNoteScreen({super.key, this.title, this.description,required this.isEditing});
 
   final String? title;
   final String? description;
+  final bool isEditing;
 
   @override
   State<AddEditNoteScreen> createState() => _AddEditNoteScreenState();
@@ -31,7 +32,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
             Padding(
               padding: EdgeInsets.only(left: size.width * .05, top: size.width * .05),
               child: Text(
-                "Add Your Notz",
+                widget.isEditing ? "Edit Your Notz" : "Add Your Notz",
                 style: textTheme.displayLarge,
               ),
             ),
@@ -56,11 +57,11 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
             Expanded(
               child: TextFormField(
                 controller: descriptionController,
-                style: textTheme.titleLarge,
+                style: textTheme.bodyLarge,
                 maxLines: null,
                 decoration: InputDecoration(
                   hintText: "Description",
-                  hintStyle: textTheme.titleLarge,
+                  hintStyle: textTheme.bodyLarge,
                   isDense: false,
                   contentPadding: EdgeInsets.all(size.width * .05),
                   border: InputBorder.none,

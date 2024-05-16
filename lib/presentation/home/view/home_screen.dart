@@ -18,8 +18,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -33,8 +31,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => AddEditNoteScreen(
-                            title: DummyData.dummyData[index]["title"],
-                            description: DummyData.dummyData[index]["description"]),
+                          title: DummyData.dummyData[index]["title"],
+                          description: DummyData.dummyData[index]["description"],
+                          isEditing: true,
+                        ),
                       ),
                     );
                   },
@@ -60,7 +60,12 @@ class _HomeScreenState extends State<HomeScreen> {
           shape: const CircleBorder(),
           enableFeedback: true,
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const AddEditNoteScreen()));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AddEditNoteScreen(isEditing: false),
+              ),
+            );
           },
           backgroundColor: DeezNotzColors.orange300,
           child: const Icon(Icons.add, size: 30)),

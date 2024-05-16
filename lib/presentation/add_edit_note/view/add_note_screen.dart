@@ -2,15 +2,25 @@ import 'package:deeznotz/core/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class AddEditNoteScreen extends StatefulWidget {
-  const AddEditNoteScreen({super.key});
+  const AddEditNoteScreen({super.key, this.title, this.description});
+
+  final String? title;
+  final String? description;
 
   @override
   State<AddEditNoteScreen> createState() => _AddEditNoteScreenState();
 }
 
 class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
+  var titleController = TextEditingController();
+  var descriptionController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    if (widget.title != null && widget.description != null) {
+      titleController.text = widget.title!;
+      descriptionController.text = widget.description!;
+    }
     final size = MediaQuery.of(context).size;
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
@@ -28,10 +38,11 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
             Divider(
               indent: size.width * .05,
               endIndent: size.width * .05,
-              thickness: size.height*.002,
+              thickness: size.height * .002,
               color: DeezNotzColors.blue700,
             ),
             TextFormField(
+              controller: titleController,
               style: textTheme.labelLarge,
               decoration: InputDecoration(
                 hintText: "Title",
@@ -44,6 +55,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
             ),
             Expanded(
               child: TextFormField(
+                controller: descriptionController,
                 style: textTheme.titleLarge,
                 maxLines: null,
                 decoration: InputDecoration(

@@ -8,7 +8,7 @@ class DeezBottomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const BottomAppBar(
+    return BottomAppBar(
       shape: WaterfallNotchedRectangle(),
       color: DeezNotzColors.blue700,
       child: Row(
@@ -18,6 +18,14 @@ class DeezBottomAppBar extends StatelessWidget {
             "deeZNotz",
             style: TextStyle(fontSize: 30, color: DeezNotzColors.white50),
           ),
+          Spacer(),
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.settings,
+                color: DeezNotzColors.white50,
+                size: 25,
+              ))
         ],
       ),
     );
